@@ -9,8 +9,7 @@ from tensorflow.keras.optimizers import Adam
 
 from sklearn.metrics import  confusion_matrix, classification_report
 
-#чтобы не обучать заново
-exit(777)
+
 DATASET_PATH = "images/training_dataset"
 IMG_SIZE = (100, 100)
 BATCH_SIZE = 32
@@ -41,7 +40,8 @@ val_gen = datagen.flow_from_directory(
     subset='validation'
 )
 
-
+#чтобы не обучать заново
+exit(777)
 model = Sequential([
     Conv2D(32, (3, 3), activation='relu', input_shape=(*IMG_SIZE, 3)),
     MaxPooling2D(2, 2),

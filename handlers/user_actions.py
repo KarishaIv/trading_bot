@@ -25,7 +25,7 @@ import requests
 lstm_model = tf.keras.models.load_model(MODEL_PATH_LSTM)
 router = Router()
 
-def is_valid_ticker(ticker: str) -> bool:
+def is_valid_yahoo_ticker(ticker: str) -> bool:
     try:
         info = yf.Ticker(ticker).info
         return bool(info) and "longName" in info
@@ -82,13 +82,13 @@ async def handle_user_input(message: types.Message):
         return
 
     if user_data[user_id]["type"] is None:
-        await message.answer("Сначала выберите, какие акции вас интересуют.")
+        await message.answer("Сначала выберите, какие акции вас интересуют:")
         return
 
 
     if user_data[user_id]["ticker"] is None:
         if user_data[user_id]["type"] == "foreign":
-            if is_valid_ticker(text):
+            if is_valid_yahoo_ticker(text):
                 user_data[user_id]["ticker"] = text
                 await message.answer(f"✅ Тикер {text} сохранен! Выберите действие:", reply_markup=get_foreign_stock_keyboard())
             else:
@@ -111,7 +111,7 @@ async def handle_user_input(message: types.Message):
             company_info = get_stock_info(ticker_symbol)
             await message.answer(company_info, parse_mode=ParseMode.HTML, reply_markup=get_foreign_stock_keyboard())
         else:
-            await message.answer("Информация доступна только для иностранных акций.", reply_markup=get_foreign_stock_keyboard())
+            await message.answer("Информация доступна только для иностранных акций", reply_markup=get_foreign_stock_keyboard())
     elif text == "📊 АНАЛИЗ ТЕХ ИНДИКАТОРОВ":
         await send_indicator_analysis(message.bot, user_id, ticker_symbol, stock_type)
         return
@@ -140,7 +140,7 @@ async def handle_user_input(message: types.Message):
 
     elif text == "🖼️ АНАЛИЗ ГРАФИКА":
         if user_id not in user_data or not user_data[user_id].get("ticker"):
-            await message.answer("Сначала введите тикер компании!")
+            await message.answer("Сначала введите тикер компании")
             return
 
         ticker = user_data[user_id]["ticker"]
@@ -166,7 +166,7 @@ async def handle_user_input(message: types.Message):
         await message.answer("Выберите вариант анализа новостей:", reply_markup=get_news_keyboard())
 
     elif text == "🔙 ВЕРНУТЬСЯ К ВЫБОРУ АКЦИЙ":
-        user_data[user_id] = {"type": None, "ticker": None}  # сбрасываем
+        user_data[user_id] = {"type": None, "ticker": None}
         await message.answer("👋 Выберите акции каких компаний вас интересуют:", reply_markup=get_stock_type_keyboard())
         return
 

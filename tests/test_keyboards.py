@@ -30,6 +30,7 @@ def test_get_foreign_stock_keyboard_contains_all_options():
 def test_get_russian_stock_keyboard_contains_all_options():
     kb = get_russian_stock_keyboard()
     texts = [btn.text for row in kb.keyboard for btn in row]
+    assert "📰 Анализ новостей" not in texts
     assert "📈 Прогноз цены" in texts
     assert "🖼️ Анализ графика" in texts
     assert "📊 Анализ тех индикаторов" in texts
