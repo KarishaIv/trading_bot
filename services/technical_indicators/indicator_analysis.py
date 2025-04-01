@@ -64,8 +64,8 @@ async def send_indicator_analysis(bot: Bot, user_id, ticker, stock_type):
     plt.axhline(0, color="black", linestyle="--")
     plt.title(f"Анализ технических индикаторов для {ticker}")
     plt.xticks(rotation=45)
-    plt.ylabel("Индикаторы")
-    plt.xlabel("Сигнал")
+    plt.xlabel("Индикаторы")
+    plt.ylabel("Сигнал")
     plt.grid(True)
 
     image_path = f"/tmp/{ticker}_indicators.png"
